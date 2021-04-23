@@ -1,0 +1,5 @@
+b6c1f7fb972f87bfc762f3d17e5bdb20  ./linux-buildinfo-5.4.0-72-generic_5.4.0-72.80_arm64.deb
+7465bf478420cd46428b9e2fa20a5fb8  ./linux-headers-5.4.0-72-generic_5.4.0-72.80_arm64.deb
+a9d4325a7fd08e4af85dca06fb2ff846  ./linux-image-unsigned-5.4.0-72-generic_5.4.0-72.80_arm64.deb
+dd661cf4e3cc2abe309c547f078b36f4  ./linux-modules-5.4.0-72-generic_5.4.0-72.80_arm64.deb
+aa0424d5eab3b1485dfa3dbe951da489  ./linux-modules-extra-5.4.0-72-generic_5.4.0-72.80_arm64.deb
