@@ -1,5 +1,12 @@
-ff8e8f9bfabbc74c799319caf643badc  linux-buildinfo-5.4.0-72-generic_5.4.0-72.80_arm64.deb
-a1cd22318cd181014b376bf175a5d51c  linux-headers-5.4.0-72-generic_5.4.0-72.80_arm64.deb
-79e06646cad79b32c8bb91e290d9758a  linux-image-unsigned-5.4.0-72-generic_5.4.0-72.80_arm64.deb
-da1997b3b29fcf2080391b555da9ab6b  linux-modules-5.4.0-72-generic_5.4.0-72.80_arm64.deb
-b13dee31f15fd01b89ee3205f4be6b7b  linux-modules-extra-5.4.0-72-generic_5.4.0-72.80_arm64.deb
+21d04771a6f301dda7fb2aeaef6b9f50  linux-buildinfo-5.4.0-72-generic_5.4.0-72.80_arm64.deb
+e2ed338f5f57c5b5099549185b015664  linux-cloud-tools-common_5.4.0-72.80_all.deb
+0297e8a661950191e398feeded042771  linux-doc_5.4.0-72.80_all.deb
+4e93b4eee359cd2a33205dee5424ab2d  linux-headers-5.4.0-72-generic_5.4.0-72.80_arm64.deb
+393023c1276c06457f24e5ec81180585  linux-headers-5.4.0-72_5.4.0-72.80_all.deb
+8eec994c32ab0bfc3bcb067615bdad4a  linux-image-unsigned-5.4.0-72-generic_5.4.0-72.80_arm64.deb
+37bf8e3e34ee3de77a0a69b1c88c88bd  linux-libc-dev_5.4.0-72.80_arm64.deb
+a0de50c8305d0b7e30bf312bd5193779  linux-modules-5.4.0-72-generic_5.4.0-72.80_arm64.deb
+fa45828e674d12a7f9deeca1ad85c3a2  linux-modules-extra-5.4.0-72-generic_5.4.0-72.80_arm64.deb
+d3911431d6c417fb21516e7cf64991dc  linux-source-5.4.0_5.4.0-72.80_all.deb
+ea5b427fac4393dccb3ca8b527ff5079  linux-tools-common_5.4.0-72.80_all.deb
+a579a1ca558a9e59a6ec46324d2b54ab  linux-tools-host_5.4.0-72.80_all.deb
