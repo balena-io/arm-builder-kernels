@@ -1,0 +1,4 @@
+[submodule "build/kernel-src"]
+	path = build/kernel-src
+	url = https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/jammy
+	shallow = true

@@ -1,0 +1,141 @@
+---
+name: patch, build and publish Linux kernel
+inputs:
+  json:
+    description: "JSON stringified object containing all the inputs from the calling workflow"
+    required: true
+  secrets:
+    description: "JSON stringified object containing all the secrets from the calling workflow"
+    required: true
+  variables:
+    description: "JSON stringified object containing all the variables from the calling workflow"
+    required: true
+
+  # --- custom environment
+  VERBOSE:
+    type: string
+    default: "true"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: docker/setup-buildx-action@v2
+
+    # https://github.com/docker/bake-action
+    - uses: docker/bake-action@v2
+      id: bake
+      with:
+        load: true
+
+    - name: patch kernel
+      shell: bash
+      run: |
+        set -ea
+
+        [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
+
+        function cleanup() {
+            true
+        }
+        trap 'cleanup' EXIT
+
+
+        pushd build/kernel-src
+        patch="../../patch/$(git describe)/balena.patch"
+
+        if ! [[ -f "$patch" ]]; then
+            echo '::error::patch missing'
+            false
+        fi
+
+        patch -p1 < "${patch}" && git diff -- kernel/sys.c
+
+    # FIXME: ignore annotations that get in the way of the build
+    - name: ignore annotations
+      shell: bash
+      run: |
+        set -ea
+
+        [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
+
+        function cleanup() {
+            true
+        }
+        trap 'cleanup' EXIT
+
+        pushd build/kernel-src
+        for kc in ${ANNOTATE_IGNORE}; do
+            sed -i "s/${kc}/#${kc}/g" debian.master/config/annotations
+        done
+        popd
+
+      env:
+        ANNOTATE_IGNORE: 'CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT CONFIG_DEBUG_INFO_DWARF5'
+
+    # https://wiki.ubuntu.com/Kernel/BuildYourOwnKernel
+    - name: build kernel
+      shell: bash
+      run: |
+        set -ea
+
+        [[ '${{ inputs.VERBOSE }}' =~ on|On|Yes|yes|true|True ]] && set -x
+
+        function cleanup() {
+            rm -f "${tmpbuild}"
+        }
+        trap 'cleanup' EXIT
+
+
+        tmpbuild="$(mktemp)"
+        cat << EOF > "${tmpbuild}"
+        #!/usr/bin/env bash
+        set -ax
+        export \$(dpkg-architecture -a\${ARCH})
+        MAKEFLAGS="-j\$(nproc)"
+        cd build/kernel-src
+        fakeroot debian/rules clean
+        fakeroot debian/rules binary-headers binary-generic
+        EOF
+
+        cat < "${tmpbuild}" | docker run -i \
+          --env DEB_BUILD_PROFILES \
+          --env DEBIAN_KERNEL_DISABLE_DEBUG \
+          --env FEATURESET \
+          --env FLAVOUR \
+          --env LANG \
+          --mount type=bind,source=$(readlink -f build),target=/home/admin/build \
+          kernel-builder:${{ github.sha || 'latest' }}
+
+        mkdir -p dist && find build -type f -name '*.deb' | xargs -I{} cp {} dist/
+        find dist -type f \( -name 'linux-tools-*' -o -name 'zfs-dkms_*' \) | xargs rm -f
+
+      env:
+        FEATURESET: none
+        FLAVOUR: generic
+        DEBIAN_KERNEL_DISABLE_DEBUG: yes
+        LANG: C
+        # https://wiki.debian.org/BuildProfileSpec
+        DEB_BUILD_PROFILES: |
+          cross \
+          nocil \
+          nodoc \
+          noguile \
+          noinsttest \
+          nojava \
+          nolua \
+          noocaml \
+          noperl \
+          noruby \
+          nowasm \
+          nowindows \
+          pkg.linux.notools \
+          pkg.linux.nokerneldbg \
+          pkg.linux.nometa \
+          pkg.linux.quick
+
+    - name: publish kernel
+      uses: actions/upload-artifact@v3
+      with:
+        name: gh-release-${{ github.event.pull_request.head.sha || github.event.head_commit.id }}
+        path: dist
+        retention-days: 1
