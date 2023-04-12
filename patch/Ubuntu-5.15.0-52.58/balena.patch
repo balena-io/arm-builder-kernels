@@ -1,0 +1,39 @@
+diff --git a/kernel/sys.c b/kernel/sys.c
+index f49209cca1f4..c36b31ba1653 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -1263,31 +1263,15 @@ early_param("compat_uts_machine", parse_compat_uts_machine);
+ /*
+  * Work around broken programs that cannot handle "Linux 3.0".
+  * Instead we map 3.x to 2.6.40+x, so e.g. 3.0 would be 2.6.40
+- * And we map 4.x and later versions to 2.6.60+x, so 4.0/5.0/6.0/... would be
+- * 2.6.60.
++ * And we map 4.x to 2.6.60+x, so 4.0 would be 2.6.60.
+  */
+ static int override_release(char __user *release, size_t len)
+ {
+	int ret = 0;
+
++	strncpy(compat_uts_machine, "armv7l", __OLD_UTS_LEN);
+	if (current->personality & UNAME26) {
+-		const char *rest = UTS_RELEASE;
+-		char buf[65] = { 0 };
+-		int ndots = 0;
+-		unsigned v;
+-		size_t copy;
+-
+-		while (*rest) {
+-			if (*rest == '.' && ++ndots >= 3)
+-				break;
+-			if (!isdigit(*rest) && *rest != '.')
+-				break;
+-			rest++;
+-		}
+-		v = LINUX_VERSION_PATCHLEVEL + 60;
+-		copy = clamp_t(size_t, len, 1, sizeof(buf));
+-		copy = scnprintf(buf, copy, "2.6.%u%s", v, rest);
+-		ret = copy_to_user(release, buf, copy + 1);
++		strncpy(compat_uts_machine, "armv6l", __OLD_UTS_LEN);
+	}
+	return ret;
+ }
