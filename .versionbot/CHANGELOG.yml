@@ -1,0 +1,11 @@
+- commits:
+    - subject: build and patch from upstream
+      hash: 020a546c37a8dc3aa71d7234c5411712b19faca0
+      body: ""
+      footer:
+        change-type: major
+      author: ab77
+      nested: []
+  version: 1.0.0
+  title: ""
+  date: 2023-04-12T00:30:42.906Z
