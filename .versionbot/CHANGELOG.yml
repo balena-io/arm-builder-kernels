@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update docker/bake-action action to v3
+      hash: cd7ab0af0ef8e55d9887c95afdf2392980ef846c
+      body: |
+        Update docker/bake-action from 2 to 3
+      footer:
+        Change-type: major
+        change-type: major
+      author: Renovate Bot
+      nested: []
+  version: 2.0.0
+  title: ""
+  date: 2023-04-18T18:20:06.565Z
+- commits:
     - subject: build and patch from upstream
       hash: 020a546c37a8dc3aa71d7234c5411712b19faca0
       body: ""
