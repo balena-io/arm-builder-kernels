@@ -1,4 +1,17 @@
 - commits:
+    - subject: Pin dependencies
+      hash: 0b8c8fdb67919cfb25aaa3d2d2383891176557fc
+      body: |
+        Pin actions/upload-artifact
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 2.0.1
+  title: ""
+  date: 2023-04-27T16:56:38.879Z
+- commits:
     - subject: Update docker/bake-action action to v3
       hash: cd7ab0af0ef8e55d9887c95afdf2392980ef846c
       body: |
