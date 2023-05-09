@@ -1,5 +1,7 @@
 # arm-builder-kernels
 
+⚠️ deprecation notice: this repository is being replaced by https://github.com/balena-io/remote-workers
+
 ## ToC
 * [Ubuntu](#ubuntu)
 * [Amazon Linux 2](#amazon-linux-2)
